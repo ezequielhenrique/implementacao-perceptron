@@ -3,27 +3,25 @@ def escrever(texto, arquivo="resultado.txt", modo="a"):
         f.write(str(texto) + "\n")
 
 
-def perceptron(x, theta, alpha, y_real):
-    # Função de ativação (degrau)
-    def h(u):
-        return 1 if u > 0 else 0
-    
-    # adiciona o bias no x
+def ativacao(u):
+    return 1 if u > 0 else 0
+
+
+def perceptron(x, w, alpha, y_real):
+
     x = [1] + x
 
-    u = 0
-    for j in range(len(x)):
-        u += theta[j] * x[j]
-    
-    y_pred = h(u)
+    u = sum(w[j] * x[j] for j in range(len(x)))
+
+    y_pred = ativacao(u)
 
     erro = y_real - y_pred
 
     if erro != 0:
-        for j in range(len(theta)):
-            theta[j] = theta[j] + alpha * erro * x[j]
+        for j in range(len(w)):
+            w[j] = w[j] + alpha * erro * x[j]
 
-    return theta, y_pred, erro
+    return w, y_pred, erro
 
 
 dados = [
@@ -33,17 +31,21 @@ dados = [
     [1, 1, 1]
 ]
 
-w = [0.0, 0.0, 0.0]   # pesos iniciais
+w = [0.0, 0.0, 0.0]
 alpha = 0.5
 
+escrever("=== Treinamento Perceptron ===", modo="w")
+
 for ciclo in range(6):
-    print(f"\n{ciclo + 1}° Ciclo")
-    escrever(f"\n{ciclo + 1}° Ciclo")
+    print(f"\n{ciclo+1}° Ciclo")
+    escrever(f"\n{ciclo+1}° Ciclo")
 
     for dado in dados:
         x = dado[:-1]
         y_real = dado[-1]
 
-        theta, y_pred, erro = perceptron(x, w, alpha, y_real)
-        print(f"x={x}, y_pred={y_pred}, y_real={y_real}, erro={erro}, novos_pesos={w}")
-        escrever(f"x={x}, y_pred={y_pred}, y_real={y_real}, erro={erro}, novos_pesos={w}")
+        w, y_pred, erro = perceptron(x, w, alpha, y_real)
+
+        linha = f"x={x}, y_pred={y_pred}, y_real={y_real}, erro={erro}, novos_pesos={w}"
+        print(linha)
+        escrever(linha)

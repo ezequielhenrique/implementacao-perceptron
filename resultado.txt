@@ -1,3 +1,4 @@
+=== Treinamento Perceptron ===
 
 1° Ciclo
 x=[0, 0], y_pred=0, y_real=0, erro=0, novos_pesos=[0.0, 0.0, 0.0]
